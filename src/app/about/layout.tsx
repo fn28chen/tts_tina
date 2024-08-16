@@ -1,6 +1,5 @@
 "use client"
 import NavBar from "@/components/global/navbar";
-import { useEffect, useState } from "react";
 
 export default function RootLayout({
   children,
