@@ -2,6 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: revert;
+}
+
+h1 {
+  @apply text-2xl;
+}
+h2 {
+  @apply text-xl;
+}
+h3 {
+  @apply text-lg;
+}
+a {
+  @apply text-blue-600 underline;
+}
+a:hover {
+  @apply text-blue-800;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -65,5 +85,37 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.animate-slide {
+  display: flex;
+  white-space: nowrap;
+  animation: slide 20s linear infinite;
+}
+
+.user-card {
+  display: inline-block;
+  width: 400px; /* Adjust width as needed */
+  height: 300px;
+  margin-right: 16px; /* Adjust spacing as needed */
+}
+
+.break-words {
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.animate-slide:hover {
+  animation-play-state: paused;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
   }
 }
