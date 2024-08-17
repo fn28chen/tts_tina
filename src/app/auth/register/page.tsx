@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-
+import Cookies from "js-cookie";
 const formSchema = z
   .object({
     fullName: z.string().min(2, {
@@ -59,28 +59,37 @@ export default function ProfileForm() {
     username,
     email,
     password,
-    confirmPassword
+    confirmPassword,
   }: z.infer<typeof formSchema>) => {
     const userData = {
       fullName,
       username,
       email,
       password,
-      confirmPassword
+      confirmPassword,
     };
     try {
       const responseRegister = await axios.post(
         "https://dev.mys.tinasoft.com.vn/api/v1/auth/register",
         userData
       );
+      const verifyEmail = await axios.post(
+        "https://dev.mys.tinasoft.com.vn/api/v1/auth/send-otp",
+        { email, prefix: "https://example.com" }
+      );
       if (responseRegister.status === 201) {
         console.log("Register success");
+        Cookies.set("email", email);
+      }
+      if (verifyEmail.status === 200) {
+        console.log("Email sent");
       }
       router.push("/auth/verify-email");
     } catch (error) {
       console.error("An error occurred:", error);
     }
-    console.log(userData);
+    // console.log(userData);
+
   };
 
   const isLoading = form.formState.isSubmitting;
