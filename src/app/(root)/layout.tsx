@@ -1,4 +1,5 @@
 "use client";
+import NavBar from "@/components/global/navbar";
 import { Sidebar } from "@/components/global/sidebar";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
 import { useStore } from "@/hooks/use-store";
@@ -18,7 +19,10 @@ export default function RootLayout({
           sidebar?.isOpen === false ? "lg:ml-[90px]" : "lg:ml-72"
         )}
       >
-        {children}
+        <div>
+          <NavBar />
+          {children}
+        </div>
       </main>
     </div>
   );

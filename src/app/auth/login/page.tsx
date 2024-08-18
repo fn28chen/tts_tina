@@ -19,6 +19,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/user-context";
 import { useToast } from "@/components/ui/use-toast";
+import Cookies from "js-cookie";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -52,7 +53,8 @@ export default function ProfileForm() {
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful", data);
-        localStorage.setItem("user", JSON.stringify(data));
+        // save access token to cookies
+        Cookies.set("token", data.token, { expires: 7 });
         setUser(data);
         
         toast({

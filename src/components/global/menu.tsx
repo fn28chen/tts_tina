@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Ellipsis, LogOut } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { getMenuList } from "@/lib/menu-list";
@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/tooltip";
 import { useTheme } from "next-themes";
 import { FiMoon, FiSun } from "react-icons/fi";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -24,8 +27,34 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const menuList = getMenuList(pathname);
   const { theme, setTheme } = useTheme();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  useEffect(() => {
+    if (isLoggingOut) {
+      axios
+        .get("https://dev.mys.tinasoft.com.vn/api/v1/auth/logout-once", {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        })
+        .then(() => {
+          Cookies.remove("token");
+          setTimeout(() => {
+            router.push("/about");
+          }, 100);
+        })
+        .catch((error) => {
+          console.error("Error logging out:", error);
+        });
+    }
+  }, [isLoggingOut, router]);
+
+  const handleLogout = () => {
+    setIsLoggingOut(true);
+  };
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">
@@ -135,7 +164,7 @@ export function Menu({ isOpen }: MenuProps) {
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    onClick={() => {}}
+                    onClick={handleLogout}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >

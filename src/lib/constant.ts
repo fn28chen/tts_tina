@@ -1,3 +1,4 @@
+import { CreditCard, Keyboard, Settings, User } from "lucide-react";
 import IamProgrammer from "../../public/img/IamProgrammerEnglish.png";
 
 export const About = [
@@ -106,5 +107,50 @@ export const USERS = [
     name: 'Ivy',
     message:
       "Our team's collaboration improved immensely with Cypress. We catch issues early, leading to less friction and quicker feature deployments.",
+  },
+];
+
+export const section = [
+  {
+    title: "Giới thiệu",
+    items: [
+      {
+        icon: User,
+        title: "Thông tin tài khoản",
+      },
+      {
+        icon: CreditCard,
+        title: "Billing",
+      },
+      {
+        icon: Settings,
+        title: "Settings",
+      },
+      {
+        icon: Keyboard,
+        title: "Keyboard shortcuts",
+      },
+    ],
+  },
+  {
+    title: "Giới thiệu 2",
+    items: [
+      {
+        icon: User,
+        title: "Thông tin tài khoản",
+      },
+      {
+        icon: CreditCard,
+        title: "Billing",
+      },
+      {
+        icon: Settings,
+        title: "Settings",
+      },
+      {
+        icon: Keyboard,
+        title: "Keyboard shortcuts",
+      },
+    ],
   },
 ];
