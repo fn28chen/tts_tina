@@ -1,12 +1,8 @@
+"use client";
 import { cn } from "@/lib/utils";
-import React, { useContext } from "react";
-import ThemeToggle from "../ui/theme-toggle";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { UserContext } from "@/context/user-context";
-
-import { CreditCard, Keyboard, Settings, User } from "lucide-react";
-import Dropdown from "../ui/dropdown";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,12 +13,30 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { section } from "@/lib/constant";
+import axios from "axios";
+import Cookies from "js-cookie";
+
 interface NavBarProps {
   className?: string;
 }
 
 const NavBar = ({ className }: NavBarProps) => {
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get("https://dev.mys.tinasoft.com.vn/api/v1/users/me", {
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <div
       className={cn(

@@ -29,7 +29,7 @@ export default function Dropdown({ triggerButton, section }: DropdownProps) {
       <DropdownMenuSeparator />
       <DropdownMenuGroup>
         {section.map((item) => (
-          <DropdownMenuItem>
+          <DropdownMenuItem key={item.title}>
             <span>{item.title}</span>
           </DropdownMenuItem>
         ))}
