@@ -21,6 +21,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { FileUpload } from "../ui/file-upload";
 
 const formSchema = z.object({
   workspace: z.string().min(2, {
@@ -62,62 +63,93 @@ export default function CreateCard() {
     console.log(values);
   }
 
+  const [files, setFiles] = React.useState<File[]>([]);
+  const handleFileUpload = (files: File[]) => {
+    setFiles(files);
+    console.log(files);
+  };
+
   return (
     <Card className="w-[300px] md:w-[600px]">
       <CardHeader>
         <CardTitle>Create workspace</CardTitle>
-        <CardDescription>Deploy your new workspace in one-click.</CardDescription>
+        <CardDescription>
+          Deploy your new workspace in one-click.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid w-full items-center gap-4 grid-cols-1 md:grid-cols-2">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="workspace">Tên không gian làm việc</Label>
-              <Input id="workspace" placeholder="Name of your project" {...form.register("workspace")} />
+            <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
+              <FileUpload onChange={handleFileUpload} />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="website">Website</Label>
-              <Input id="website" placeholder="Website" {...form.register("website")} />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="Email" {...form.register("email")} />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="phone">Số điện thoại</Label>
-              <Input id="phone" placeholder="Số điện thoại" {...form.register("phone")} />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="company">Công ty</Label>
-              <Select {...form.register("company")}>
-                <SelectTrigger id="company">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="company">Công ty</SelectItem>
-                  <SelectItem value="organization">Tổ chức</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="scale">Quy mô</Label>
-              <Select {...form.register("scale")}>
-                <SelectTrigger id="scale">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="lt50">LT50</SelectItem>
-                  <SelectItem value="lt100">LT100</SelectItem>
-                  <SelectItem value="gt100">GT100</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="workspace">Tên không gian làm việc</Label>
+                <Input
+                  id="workspace"
+                  placeholder="Name of your project"
+                  {...form.register("workspace")}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="website">Website</Label>
+                <Input
+                  id="website"
+                  placeholder="Website"
+                  {...form.register("website")}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Email"
+                  {...form.register("email")}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="phone">Số điện thoại</Label>
+                <Input
+                  id="phone"
+                  placeholder="Số điện thoại"
+                  {...form.register("phone")}
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="company">Công ty</Label>
+                <Select {...form.register("company")}>
+                  <SelectTrigger id="company">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    <SelectItem value="company">Công ty</SelectItem>
+                    <SelectItem value="organization">Tổ chức</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="scale">Quy mô</Label>
+                <Select {...form.register("scale")}>
+                  <SelectTrigger id="scale">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    <SelectItem value="lt50">LT50</SelectItem>
+                    <SelectItem value="lt100">LT100</SelectItem>
+                    <SelectItem value="gt100">GT100</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline">Cancel</Button>
-        <Button type="submit" onClick={() => onSubmit(form.getValues())}>Submit</Button>
+        <Button type="submit" onClick={() => onSubmit(form.getValues())}>
+          Submit
+        </Button>
       </CardFooter>
     </Card>
   );
