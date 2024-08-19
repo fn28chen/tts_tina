@@ -10,14 +10,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { Button } from "../ui/button";
-import { cn } from "@/lib/utils";
-import { LogOut } from "lucide-react";
 
 export default function UserNavbar() {
   const router = useRouter();
@@ -44,6 +41,7 @@ export default function UserNavbar() {
 
   const handleLogout = () => {
     setIsLoggingOut(true);
+    router.push("/about");
   };
 
   return (
@@ -67,11 +65,7 @@ export default function UserNavbar() {
           ))}
         </DropdownMenuGroup>
         <DropdownMenuGroup>
-          <Link href="/about" className="flex flex-col">
-            <DropdownMenuItem onClick={handleLogout}>
-              <p>Sign out</p>
-            </DropdownMenuItem>
-          </Link>
+          <DropdownMenuItem onClick={handleLogout}>Sign Out</DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

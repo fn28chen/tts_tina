@@ -15,8 +15,6 @@ import {
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { useTheme } from "next-themes";
-import { FiMoon, FiSun } from "react-icons/fi";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";

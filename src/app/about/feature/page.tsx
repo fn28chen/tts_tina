@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardSkeletonContainer,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card-aceternity";
 import LayoutComponents from "@/components/ui/layout-components";
 import React from "react";
 
