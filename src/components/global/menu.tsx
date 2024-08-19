@@ -29,7 +29,6 @@ export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const router = useRouter();
   const menuList = getMenuList(pathname);
-  const { theme, setTheme } = useTheme();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
@@ -135,30 +134,6 @@ export function Menu({ isOpen }: MenuProps) {
               )}
             </li>
           ))}
-          <Button
-            variant={`default`}
-            size={`default`}
-            className="
-            flex w-full items-center justify-center 
-            rounded shadow 
-            bg-zinc-200 hover:bg-zinc-300 
-            dark:bg-zinc-700 dark:hover:bg-zinc-500"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          >
-            <div className="p-2 text-zinc-800 dark:text-zinc-200">
-              {theme === "dark" ? <FiMoon /> : <FiSun />}
-            </div>
-            <p
-              className={cn(
-                "max-w-[200px] text-zinc-800 dark:text-zinc-200 truncate",
-                isOpen === false
-                  ? "-translate-x-96 opacity-0"
-                  : "translate-x-0 opacity-100"
-              )}
-            >
-              {theme === "dark" ? "Dark Mode" : "Light Mode"}
-            </p>
-          </Button>
           <li className="w-full grow flex items-end">
             <TooltipProvider disableHoverableContent>
               <Tooltip delayDuration={100}>

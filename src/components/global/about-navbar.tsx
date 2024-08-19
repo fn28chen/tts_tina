@@ -15,14 +15,12 @@ import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { section } from "@/lib/constant";
 import axios from "axios";
 import Cookies from "js-cookie";
-import UserNavbar from "./user-navbar";
-import ThemeToggle from "../ui/theme-toggle";
 
 interface NavBarProps {
   className?: string;
 }
 
-const NavBar = ({ className }: NavBarProps) => {
+const AboutNavbar = ({ className }: NavBarProps) => {
   const [user, setUser] = useState(null);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
 
@@ -53,12 +51,18 @@ const NavBar = ({ className }: NavBarProps) => {
       </h1>
       <div className="flex flex-row gap-2">
         <>
-          <ThemeToggle />
-          <UserNavbar />
+          <Link href="/auth/login">
+            <Button
+              variant="default"
+              className="bg-white text-black dark:bg-neutral-600 dark:text-white hover-scale"
+            >
+              Trải nghiệm ngay
+            </Button>
+          </Link>
         </>
       </div>
     </div>
   );
 };
 
-export default NavBar;
+export default AboutNavbar;

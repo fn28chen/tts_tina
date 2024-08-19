@@ -1,5 +1,6 @@
 "use client"
-import NavBar from "@/components/global/navbar";
+
+import AboutNavbar from "@/components/global/about-navbar";
 
 export default function RootLayout({
   children,
@@ -9,7 +10,7 @@ export default function RootLayout({
 
   return (
     <div className={`flex flex-col min-h-screen`}>
-      <NavBar className="fixed py-4 z-40" />
+      <AboutNavbar className="fixed py-4 z-40" />
       {children}
     </div>
   );
