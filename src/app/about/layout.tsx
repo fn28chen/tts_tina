@@ -1,15 +1,27 @@
-"use client"
-import NavBar from "@/components/global/navbar";
+"use client";
+
+import AboutNavbar from "@/components/global/about-navbar";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      router.push("/about");
+    }
+  }, [router]);
 
   return (
     <div className={`flex flex-col min-h-screen`}>
-      <NavBar className="fixed py-4 z-40" />
+      <AboutNavbar className="fixed py-4 z-40" />
       {children}
     </div>
   );

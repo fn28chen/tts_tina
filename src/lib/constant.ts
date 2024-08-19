@@ -116,7 +116,7 @@ export const section = [
     items: [
       {
         icon: User,
-        title: "Thông tin tài khoản",
+        title: "User Information",
       },
       {
         icon: CreditCard,
@@ -137,7 +137,7 @@ export const section = [
     items: [
       {
         icon: User,
-        title: "Thông tin tài khoản",
+        title: "User Information",
       },
       {
         icon: CreditCard,
