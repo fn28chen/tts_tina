@@ -17,6 +17,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import UserNavbar from "./user-navbar";
 import ThemeToggle from "../ui/theme-toggle";
+import { SheetMenu } from "../ui/sheet-menu";
 
 interface NavBarProps {
   className?: string;
@@ -48,6 +49,7 @@ const NavBar = ({ className }: NavBarProps) => {
         className
       )}
     >
+      <SheetMenu/>
       <h1 className="pl-4 text-zinc-900 dark:text-zinc-100 font-bold">
         Tinamys&apos;s Logo
       </h1>
