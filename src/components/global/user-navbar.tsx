@@ -24,11 +24,11 @@ export default function UserNavbar() {
       axios
         .get("https://dev.mys.tinasoft.com.vn/api/v1/auth/logout-once", {
           headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         })
         .then(() => {
-          Cookies.remove("token");
+          Cookies.remove("accessToken");
           setTimeout(() => {
             router.push("/about");
           }, 100);

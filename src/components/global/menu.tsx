@@ -34,11 +34,11 @@ export function Menu({ isOpen }: MenuProps) {
       axios
         .get("https://dev.mys.tinasoft.com.vn/api/v1/auth/logout-once", {
           headers: {
-            Authorization: `Bearer ${Cookies.get("token")}`,
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         })
         .then(() => {
-          Cookies.remove("token");
+          Cookies.remove("accessToken");
           setTimeout(() => {
             router.push("/about");
           }, 100);
@@ -51,6 +51,7 @@ export function Menu({ isOpen }: MenuProps) {
 
   const handleLogout = () => {
     setIsLoggingOut(true);
+    router.push("/about");
   };
 
   return (

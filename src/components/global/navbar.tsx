@@ -31,7 +31,7 @@ const NavBar = ({ className }: NavBarProps) => {
     axios
       .get("https://dev.mys.tinasoft.com.vn/api/v1/users/me", {
         headers: {
-          Authorization: `Bearer ${Cookies.get("token")}`,
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       })
       .then((res) => {
