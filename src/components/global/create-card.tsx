@@ -27,7 +27,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const formSchema = z.object({
-  workspace_name: z.string().min(2, {
+  displayName: z.string().min(2, {
     message: "Tên không gian làm việc.",
   }),
   website: z
@@ -37,29 +37,31 @@ const formSchema = z.object({
     })
     .optional()
     .or(z.literal("")),
-  email: z
+  contactEmail: z
     .string()
     .email({
       message: "Vui lòng nhập email hợp lệ.",
     })
     .optional()
     .or(z.literal("")),
-  phone: z.string().min(10, {
+  contactPhone: z.string().min(10, {
     message: "Vui lòng nhập số điện thoại hợp lệ.",
   }),
-  company: z
-    .enum(["company", "organization"], {
+  category: z
+    .number()
+    .min(0, {
       message: "Vui lòng chọn công ty hoặc tổ chức.",
     })
     .optional(),
-  scale: z
-    .enum(["lt50", "lt100", "gt100"], {
+  memberSize: z
+    .string()
+    .refine((val) => ["LT50", "LT100", "GT100"].includes(val), {
       message: "Vui lòng chọn quy mô công ty.",
     })
     .optional(),
-  workspace_logo: z.instanceof(File, {
+  photoFile: z.instanceof(File, {
     message: "Vui lòng chọn logo hợp lệ.",
-  }),
+  }).optional(),  
 });
 
 export default function CreateCard() {
@@ -67,30 +69,30 @@ export default function CreateCard() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      workspace_name: "",
+      displayName: "",
       website: "",
-      email: "",
-      phone: "",
-      company: "company",
-      scale: "lt50",
-      workspace_logo: undefined,
+      contactEmail: "",
+      contactPhone: "",
+      category: 0,
+      memberSize: "LT50",
+      photoFile: undefined,
     },
   });
 
   const handleFileUpload = (files: File[]) => {
     if (files.length > 0) {
-      form.setValue("workspace_logo", files[0]);
+      form.setValue("photoFile", files[0]);
     }
   };
 
   // 2. Define a submit handler.
   const onSubmit = async ({
-    workspace_logo,
+    photoFile,
     ...formData
   }: z.infer<typeof formSchema>) => {
     const workspaceFormData = {
       ...formData,
-      workspace_logo: workspace_logo,
+      photoFile: photoFile,
     };
     // get accessToken from cookie
     try {
@@ -133,7 +135,7 @@ export default function CreateCard() {
               <Input
                 id="workspace"
                 placeholder="Name of your project"
-                {...form.register("workspace_name")}
+                {...form.register("displayName")}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -145,11 +147,11 @@ export default function CreateCard() {
               />
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="contactEmail">Email</Label>
               <Input
                 id="email"
                 placeholder="Email"
-                {...form.register("email")}
+                {...form.register("contactEmail")}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -157,31 +159,31 @@ export default function CreateCard() {
               <Input
                 id="phone"
                 placeholder="Số điện thoại"
-                {...form.register("phone")}
+                {...form.register("contactPhone")}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="company">Công ty</Label>
-              <Select {...form.register("company")}>
+              <Select {...form.register("category")}>
                 <SelectTrigger id="company">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="company">Công ty</SelectItem>
-                  <SelectItem value="organization">Tổ chức</SelectItem>
+                  <SelectItem value="0">Công ty</SelectItem>
+                  <SelectItem value="1">Tổ chức</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="scale">Quy mô</Label>
-              <Select {...form.register("scale")}>
-                <SelectTrigger id="scale">
+              <Label htmlFor="memberSize">Quy mô</Label>
+              <Select {...form.register("memberSize")}>
+                <SelectTrigger id="memberSize">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="lt50">LT50</SelectItem>
-                  <SelectItem value="lt100">LT100</SelectItem>
-                  <SelectItem value="gt100">GT100</SelectItem>
+                  <SelectItem value="LT50">LT50</SelectItem>
+                  <SelectItem value="LT100">LT100</SelectItem>
+                  <SelectItem value="GT100">GT100</SelectItem>
                 </SelectContent>
               </Select>
             </div>
