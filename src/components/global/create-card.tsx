@@ -84,21 +84,19 @@ export default function CreateCard() {
   };
 
   // 2. Define a submit handler.
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const formData = new FormData();
-    formData.append("workspace_name", values.workspace_name);
-    formData.append("website", values.website || "");
-    formData.append("email", values.email || "");
-    formData.append("phone", values.phone);
-    formData.append("company", values.company || "");
-    formData.append("scale", values.scale || "");
-    formData.append("workspace_logo", values.workspace_logo);
-
+  const onSubmit = async ({
+    workspace_logo,
+    ...formData
+  }: z.infer<typeof formSchema>) => {
+    const workspaceFormData = {
+      ...formData,
+      workspace_logo: workspace_logo,
+    };
     // get accessToken from cookie
     try {
       const response = await axios.post(
         "https://dev.mys.tinasoft.com.vn/api/v1/companies",
-        formData,
+        workspaceFormData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -113,7 +111,6 @@ export default function CreateCard() {
   };
 
   const isLoading = form.formState.isSubmitting;
-
 
   return (
     <Card className="w-[300px] md:w-[600px]">
@@ -144,9 +141,7 @@ export default function CreateCard() {
               <Input
                 id="website"
                 placeholder="Website"
-                {...form.register("website", {
-                  setValueAs: (value) => value || "",
-                })}
+                {...form.register("website")}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
@@ -154,9 +149,7 @@ export default function CreateCard() {
               <Input
                 id="email"
                 placeholder="Email"
-                {...form.register("email", {
-                  setValueAs: (value) => value || "",
-                })}
+                {...form.register("email")}
               />
             </div>
             <div className="flex flex-col space-y-1.5">
