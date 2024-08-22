@@ -13,8 +13,8 @@ export default function RootLayout({
   const router = useRouter();
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
+    const accessToken = Cookies.get("accessToken");
+    if (!accessToken) {
       router.push("/about");
     }
   }, [router]);

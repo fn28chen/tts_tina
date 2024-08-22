@@ -30,7 +30,6 @@ const formSchema = z.object({
   }),
 });
 
-
 export default function ProfileForm() {
   const { setUser } = useContext(UserContext);
   const router = useRouter();
@@ -42,35 +41,44 @@ export default function ProfileForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await fetch("https://dev.mys.tinasoft.com.vn/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        "https://dev.mys.tinasoft.com.vn/api/v1/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful", data);
-        // save access token to cookies
-        Cookies.set("token", data.token, { expires: 7 });
-        setUser(data);
-        
-        toast({
-          title: "Login successfully!",
-          description: "You're login successfully!",
-          duration: 1000,
-        })
-      } else {
-        const errorData = await response.json();
-        console.error("Login failed", errorData);
-        
-        toast({
-          title: "Login failed!",
-          description: "Login failed!",
-          duration: 1000,
-        })
+
+        // Check if accessToken and refreshToken are present in the response
+        if (data.data.accessToken && data.data.refreshToken) {
+          // Save access token and refresh token to cookies
+          Cookies.set("accessToken", data.data.accessToken, { expires: 7 });
+          Cookies.set("refreshToken", data.data.refreshToken, { expires: 7 });
+
+          setUser(data);
+
+          toast({
+            title: "Login successfully!",
+            description: "You're login successfully!",
+            duration: 1000,
+          });
+
+          router.push("/");
+        } else {
+          console.error("Tokens are missing in the response", data);
+          toast({
+            title: "Login failed!",
+            description: "Tokens are missing in the response.",
+            duration: 1000,
+          });
+        }
       }
     } catch (error) {
       console.error("An error occurred while logging in", error);
@@ -78,14 +86,14 @@ export default function ProfileForm() {
         title: "Login failed!",
         description: "Login failed!",
         duration: 1000,
-      })
+      });
     }
   }
 
   const handleSubmit = () => {
     router.push("/");
-  }
-  
+  };
+
   return (
     <section className="flex items-center justify-center min-h-screen">
       <Form {...form}>
@@ -125,7 +133,9 @@ export default function ProfileForm() {
             )}
           />
           <div className="flex flex-col gap-4">
-            <Button type="submit" onClick={handleSubmit}>Submit</Button>
+            <Button type="submit" onClick={handleSubmit}>
+              Submit
+            </Button>
             <Link href="/auth/register">
               <div className="flex flex-row justify-center items-center">
                 <p>Don&apos;t have an account?</p>
